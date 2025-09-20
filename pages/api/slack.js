@@ -5,10 +5,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+    const webhookUrl = process.env.SLACK_WEBHOOK_URL; // ✅ 修正ポイント
+
+    if (!webhookUrl) {
+      return res.status(500).json({ message: "Slack Webhook URL が設定されていません" });
+    }
 
     const payload = {
-      text: "✅ VercelからSlackにメッセージ送信テスト成功！",
+      text: "✅ Vercel から Slack にメッセージ送信テスト成功！",
     };
 
     const response = await fetch(webhookUrl, {
